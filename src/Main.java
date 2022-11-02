@@ -9,15 +9,16 @@ public class Main {
     }
     public static String calc(String input)
     {
-        String [] rome = {"I","II","III","IV","V","VI","VII","VIII","IX","X",
-        "XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX","XXI","XXII" };
+        String [] rome0 = {"","I","II","III","IV","V","VI","VII","VIII","IX","X"};
+        String [] rome1 ={"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+        String [] rome2 ={"","C"};
         String[] num = input.split(" ");
         String out = null;
         Boolean isRome= false;
         if(!num[0].chars().allMatch(x -> Character.isDigit(x)) &&
                 !num[2].chars().allMatch(x -> Character.isDigit(x))) {
-            num[0] = String.valueOf(Arrays.asList(rome).indexOf(num[0])+1);
-            num[2]= String.valueOf(Arrays.asList(rome).indexOf(num[2])+1);
+            num[0] = String.valueOf(Arrays.asList(rome0).indexOf(num[0]));
+            num[2]= String.valueOf(Arrays.asList(rome0).indexOf(num[2]));
             isRome=true;
         }
         if((1 >= Integer.parseInt(num[0]) || Integer.parseInt(num[0]) <= 10)
@@ -32,7 +33,11 @@ public class Main {
                 default -> out = "Не удовлетворяет условию";
             }
             if (isRome)
-                out = rome[Integer.parseInt(out)-1];
+                out = new StringBuilder()
+                        .append(rome2[Integer.parseInt(out) % 1000 / 100])
+                        .append(rome1[Integer.parseInt(out) % 100 / 10])
+                        .append(rome0[Integer.parseInt(out) % 10])
+                        .toString();
         }
         else throw new RuntimeException("Не удовлетворяет условию");
 
